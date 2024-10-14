@@ -112,7 +112,14 @@ func ValidateVnetSubnet(vnetSubnet string) error {
 }
 
 func (c Credentials) GetCredentials() (azcore.TokenCredential, error) {
-	creds := []azcore.TokenCredential{}
+	cred, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get credentials")
+	}
+
+	return cred, nil
+
+	/*creds := []azcore.TokenCredential{}
 	if spCreds, err := c.SPCredentials.Auth(c.ClientOptions); err == nil {
 		creds = append(creds, spCreds)
 	}
@@ -135,7 +142,7 @@ func (c Credentials) GetCredentials() (azcore.TokenCredential, error) {
 		return nil, err
 	}
 
-	return chain, nil
+	return chain, nil*/
 }
 
 type ServicePrincipalCredentials struct {
